@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.itjk.dao.UserDao1">
+
+    <!--
+    当数据库和实体类不匹配时
+        1.可以使SQL的起别名
+        2.是resultMap
+    -->
+    <!--配置 查询结果的列名和实体类的属性名的对应关系-->
+    <!--
+    <resultMap id="userMap" type="cn.lz.domain.User">
+        主键字段的对应
+            Property   实体类中对应的属性名称
+            Column     数据库中对应的值&ndash;&gt;
+        <id property="userID" column="id"></id>
+        非主键字段的对应&ndash;&gt;
+        <result property="" column=""></result>
+    </resultMap>
+    -->
+    <!--查询用户所用信息 resultType确认返回值-->
+    <select id="findAll" resultType="cn.lz.domain.User">
+        select * from user;
+    </select>
+
+
+    <!--添加新用户  parameterType参数类型 -->
+    <insert id="addUser" parameterType="cn.lz.domain.User">
+        <!--配置插入操作后，获取插入数据的ID
+            keyProperty   实体类中对应的属性名称
+            keyColumn     数据库中对应的值
+            order         什么时候进行这个操作
+            resultType    返回值类型
+        -->
+        <selectKey keyProperty="id" keyColumn="id" order="AFTER" resultType="int">
+            select last_insert_id();
+        </selectKey>
+        insert  into user (username,address,sex,birthday) values (#{username},#{address},#{sex},#{birthday});
+    </insert>
+
+    <!--更新用户-->
+    <update id="updateUser" parameterType="cn.lz.domain.User">
+        update user set  username=#{username},address=#{address},sex=#{sex},birthday=#{birthday} where id=#{id};
+    </update>
+
+    <!--根据ID删除用户-->
+    <delete id="deleteByID" parameterType="integer">
+        delete from user where id=#{id};
+    </delete>
+
+    <!--根据Id查询用户-->
+    <select id="findById" parameterType="integer" resultType="cn.lz.domain.User">
+        select  * from user  where id= #{id};
+    </select>
+
+    <!--根据姓名模糊查询用户-->
+    <select id="findByName" parameterType="string" resultType="cn.lz.domain.User">
+        <!--select  * from user where username like '${value}';这种方式在前面不需要%%号了-->
+        select  * from user where username like #{username};
+    </select>
+
+    <!--查询总的用户总记录条数 -->
+    <select id="findTotal" resultType="java.lang.Integer">
+        select count(id) from user;
+    </select>
+
+    <!--根据queryvo的条件查询用户-->
+    <select id="findByVo" parameterType="cn.lz.domain.QueryVo" resultType="cn.lz.domain.User">
+        select  * from user where username like #{user. username};
+    </select>
+</mapper>
