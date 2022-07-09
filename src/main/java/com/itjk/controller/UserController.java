@@ -25,18 +25,25 @@ public class UserController {
 
     @Autowired
     private UserDao1 userDao1;
-    //增
+    //增,改
     @PostMapping
-    public void UserSave(@RequestBody User user){
-        int insert = userDao1.insert(user);
-        System.out.println("chengg");
+    public boolean UserSave(@RequestBody User user){
+       /* int insert = userDao1.insert(user);
+        System.out.println("chengg");*/
+        return userServiceimpl.saveUser(user);
     }
     //删除
     @DeleteMapping("/{id}")
-    public boolean UserDele(@PathVariable Integer id){
-        int i = userDao1.deleteById(id);
-        return true;
+    public boolean delete(@PathVariable Integer id) {
+        return userServiceimpl.removeById(id);
     }
+
+    //批量删除
+    @DeleteMapping("/del/batch")
+    public boolean deletebatchid(@RequestBody List<Integer> ids) {
+        return userServiceimpl.removeBatchByIds(ids);
+    }
+
     //增加数据
     @PutMapping
     public void update(@RequestBody User user) {
@@ -66,16 +73,16 @@ public class UserController {
     public IPage<User> GetByPage(@RequestParam Integer pageNum,
                                  @RequestParam Integer pageSize,
                                  @RequestParam(defaultValue = "") String username,
-                                 @RequestParam(defaultValue = "") String nickname,
+                                 @RequestParam(defaultValue = "") String address,
                                  @RequestParam(defaultValue = "") String email
                                  ){
         IPage<User> page = new Page<>(pageNum,pageSize);
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         System.out.println("被执行");
         queryWrapper.like("username",username);//模糊查询
-        queryWrapper.like("username",nickname);
-        queryWrapper.like("username",email);
-
+        queryWrapper.like("email",email);
+        queryWrapper.like("address",address);
+        queryWrapper.orderByDesc("id");
         //queryWrapper.like(Strings.isNotEmpty(username),"username",username);
         return userServiceimpl.page(page,queryWrapper);
 
