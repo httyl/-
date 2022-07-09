@@ -17,6 +17,7 @@ public class CodeGenerator {
         FastAutoGenerator.create("jdbc:mysql://localhost:3306/qing", "root", "123456")
                 .globalConfig(builder -> {
                     builder.author("baomidou") // 设置作者
+
                             .enableSwagger() // 开启 swagger 模式
                             .fileOverride() // 覆盖已生成文件
                             .outputDir("D:\\SpringBoot项目\\小白毕设\\SpringBoot_project\\src\\main\\java\\"); // 指定输出目录
@@ -27,6 +28,12 @@ public class CodeGenerator {
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D:\\SpringBoot项目\\小白毕设\\SpringBoot_project\\src\\main\\resources\\dao\\")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
+                    builder.entityBuilder().enableLombok();//使用lombook生成dao
+                    builder.mapperBuilder().enableMapperAnnotation().build();//@Mapper注解
+
+                    builder.controllerBuilder().enableHyphenStyle()  // 开启驼峰转连字符
+                            .enableRestStyle();  // 开启生成@RestController 控制器
+
                     builder.addInclude("user") // 设置需要生成的表名
                             .addTablePrefix("t_", "c_"); // 设置过滤表前缀
                 })

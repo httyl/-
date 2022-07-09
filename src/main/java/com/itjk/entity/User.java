@@ -43,7 +43,7 @@ public class User implements Serializable {
       private String address;
 
       @ApiModelProperty("创建时间")
-      private LocalDateTime createTime;
+      private LocalDateTime createtime;
 
     
     public Integer getId() {
@@ -102,12 +102,12 @@ public class User implements Serializable {
           this.address = address;
       }
     
-    public LocalDateTime getCreateTime() {
-        return createTime;
+    public LocalDateTime getCreatetime() {
+        return createtime;
     }
 
-      public void setCreateTime(LocalDateTime createTime) {
-          this.createTime = createTime;
+      public void setCreatetime(LocalDateTime createtime) {
+          this.createtime = createtime;
       }
 
     @Override
@@ -120,7 +120,7 @@ public class User implements Serializable {
                   ", email=" + email +
                   ", phone=" + phone +
                   ", address=" + address +
-                  ", createTime=" + createTime +
+                  ", createtime=" + createtime +
               "}";
     }
 }

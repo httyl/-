@@ -20,8 +20,8 @@ import org.springframework.stereotype.Controller;
  * @author baomidou
  * @since 2022-07-09
  */
-@Controller
-@RequestMapping("/user")
+@RestController
+@RequestMapping("/User")
 public class UserController {
     @Resource
     private IUserService userService;
@@ -32,10 +32,18 @@ public class UserController {
     return userService.saveOrUpdate(user);
     }
 
+    //根据id是删除
     @DeleteMapping("/{id}")
     public Boolean delete(@PathVariable Integer id) {
         return userService.removeById(id);
     }
+
+    //批量删除
+    @PostMapping("/del/batch")
+    public boolean deletebatchid(@RequestBody List<Integer> ids) {
+        return userService.removeBatchByIds(ids);
+    }
+
 
     @GetMapping
     public List<User> findAll() {
@@ -52,7 +60,7 @@ public class UserController {
                                @RequestParam Integer pageSize,
                                @RequestParam(defaultValue = "") String username,
                                @RequestParam(defaultValue = "") String address,
-                               @RequestParam(defaultValue = "") String email ) {
+                               @RequestParam(defaultValue = "") String email) {
         IPage<User> page = new Page<>(pageNum,pageSize);
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         System.out.println("被执行");
@@ -64,9 +72,5 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/del/batch")
-    public boolean deletebatchid(@RequestBody List<Integer> ids) {
-        return userService.removeBatchByIds(ids);
-    }
 }
 

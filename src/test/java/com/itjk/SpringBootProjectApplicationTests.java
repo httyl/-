@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itjk.dao.UserDao1;
 import com.itjk.domain.User;
 import com.itjk.service.UserService;*/
+import com.itjk.entity.User;
+import com.itjk.mapper.UserMapper;
+import com.itjk.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -67,4 +70,16 @@ class SpringBootProjectApplicationTests {
         Integer integer = userDao.selectPageTotal();
         System.out.println(integer);
     }*/
+    @Autowired
+   private UserServiceImpl userService;
+    @Autowired
+    private UserMapper userMapper;
+    @Test
+    public void dad(){
+        User user = new User();
+        user.setUsername("黑吗");
+        user.setPassword("itjk");
+        user.setPhone("12");
+        userMapper.insert(user);
+    }
 }
