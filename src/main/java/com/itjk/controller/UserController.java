@@ -3,79 +3,56 @@ package com.itjk.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.itjk.dao.UserDao;
-import com.itjk.dao.UserDao1;
-import com.itjk.domain.User;
-import com.itjk.service.UserService;
-import com.itjk.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
+import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
-@RestController
-@RequestMapping("/User")
+import com.itjk.service.IUserService;
+import com.itjk.entity.User;
+
+import org.springframework.stereotype.Controller;
+
+/**
+ * <p>
+ *  前端控制器
+ * </p>
+ *
+ * @author baomidou
+ * @since 2022-07-09
+ */
+@Controller
+@RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private UserServiceImpl userServiceimpl;
+    @Resource
+    private IUserService userService;
 
-    @Autowired
-    private UserDao1 userDao1;
     //增,改
     @PostMapping
     public boolean UserSave(@RequestBody User user){
-       /* int insert = userDao1.insert(user);
-        System.out.println("chengg");*/
-        return userServiceimpl.saveUser(user);
+    return userService.saveOrUpdate(user);
     }
-    //删除
+
     @DeleteMapping("/{id}")
-    public boolean delete(@PathVariable Integer id) {
-        return userServiceimpl.removeById(id);
+    public Boolean delete(@PathVariable Integer id) {
+        return userService.removeById(id);
     }
 
-    //批量删除
-    @DeleteMapping("/del/batch")
-    public boolean deletebatchid(@RequestBody List<Integer> ids) {
-        return userServiceimpl.removeBatchByIds(ids);
+    @GetMapping
+    public List<User> findAll() {
+        return userService.list();
     }
 
-    //增加数据
-    @PutMapping
-    public void update(@RequestBody User user) {
-        int i = userDao1.updateById(user);
+    @GetMapping("/{id}")
+    public User findOne(@PathVariable Integer id) {
+        return userService.getById(id);
     }
 
-    //h根据id查询
-   @GetMapping("/{id}")
-    public User SelectById(@PathVariable Integer id){
-        User user =  userDao1.selectById(id);
-      return user;
-    }
-
-    //查询全部
-    @GetMapping("/all1")
-    public Result getAll1() {
-        List<User> UserList = userDao1.selectList(null);
-        Integer code = UserList != null ? Code.GET_OK : Code.GET_ERR;
-        String msg = UserList != null ? "数据传入成功" : "数据查询失败，请重试！";
-        System.out.println(UserList);
-        return new Result(null,UserList,null);
-    }
-
-    //分页查询 mybatis-
-    @CrossOrigin
     @GetMapping("/page")
-    public IPage<User> GetByPage(@RequestParam Integer pageNum,
-                                 @RequestParam Integer pageSize,
-                                 @RequestParam(defaultValue = "") String username,
-                                 @RequestParam(defaultValue = "") String address,
-                                 @RequestParam(defaultValue = "") String email
-                                 ){
+    public Page<User> findPage(@RequestParam Integer pageNum,
+                               @RequestParam Integer pageSize,
+                               @RequestParam(defaultValue = "") String username,
+                               @RequestParam(defaultValue = "") String address,
+                               @RequestParam(defaultValue = "") String email ) {
         IPage<User> page = new Page<>(pageNum,pageSize);
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         System.out.println("被执行");
@@ -83,17 +60,13 @@ public class UserController {
         queryWrapper.like("email",email);
         queryWrapper.like("address",address);
         queryWrapper.orderByDesc("id");
-        //queryWrapper.like(Strings.isNotEmpty(username),"username",username);
-        return userServiceimpl.page(page,queryWrapper);
-
+        return userService.page(new Page<>(pageNum, pageSize),queryWrapper);
     }
 
-    /*@GetMapping
-    public List<User> ceshi() {
-        List<User> UserList = userDao1.selectList(null);
-        System.out.println(UserList);
-        return UserList;
-    }*/
-    //[User(id=1, username=lisi, password=123456, nickname=三铁, email=123@qq.com, phone=1234567890, address=翻斗花园),
-    // User(id=2, username=wangwu, password=123456, nickname=饲养, email=dda@qq.com, phone=123948290, address=你擦尽快)]
+
+    @DeleteMapping("/del/batch")
+    public boolean deletebatchid(@RequestBody List<Integer> ids) {
+        return userService.removeBatchByIds(ids);
+    }
 }
+

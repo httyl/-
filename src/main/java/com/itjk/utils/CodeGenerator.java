@@ -22,8 +22,8 @@ public class CodeGenerator {
                             .outputDir("D:\\SpringBoot项目\\小白毕设\\SpringBoot_project\\src\\main\\java\\"); // 指定输出目录
                 })
                 .packageConfig(builder -> {
-                    builder.parent("com,itjk") // 设置父包名
-                            .moduleName("") // 设置父包模块名
+                    builder.parent("com.itjk") // 设置父包名
+                            .moduleName(null) // 设置父包模块名
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D:\\SpringBoot项目\\小白毕设\\SpringBoot_project\\src\\main\\resources\\dao\\")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {

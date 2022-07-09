@@ -2,10 +2,10 @@ package com.itjk;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.itjk.dao.UserDao;
+/*import com.itjk.dao.UserDao;
 import com.itjk.dao.UserDao1;
 import com.itjk.domain.User;
-import com.itjk.service.UserService;
+import com.itjk.service.UserService;*/
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @SpringBootTest
 class SpringBootProjectApplicationTests {
-    @Autowired
+   /* @Autowired
     private UserService userService;
     @Autowired
     private UserDao1 userDao1;
@@ -66,5 +66,5 @@ class SpringBootProjectApplicationTests {
     public void dada(){
         Integer integer = userDao.selectPageTotal();
         System.out.println(integer);
-    }
+    }*/
 }
