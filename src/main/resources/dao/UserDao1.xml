@@ -21,54 +21,54 @@
         <result property="" column=""></result>
     </resultMap>
     -->
-    <!--查询用户所用信息 resultType确认返回值-->
+    <!--&lt;!&ndash;查询用户所用信息 resultType确认返回值&ndash;&gt;
     <select id="findAll" resultType="cn.lz.domain.User">
         select * from user;
     </select>
 
 
-    <!--添加新用户  parameterType参数类型 -->
+    &lt;!&ndash;添加新用户  parameterType参数类型 &ndash;&gt;
     <insert id="addUser" parameterType="cn.lz.domain.User">
-        <!--配置插入操作后，获取插入数据的ID
+        &lt;!&ndash;配置插入操作后，获取插入数据的ID
             keyProperty   实体类中对应的属性名称
             keyColumn     数据库中对应的值
             order         什么时候进行这个操作
             resultType    返回值类型
-        -->
+        &ndash;&gt;
         <selectKey keyProperty="id" keyColumn="id" order="AFTER" resultType="int">
             select last_insert_id();
         </selectKey>
         insert  into user (username,address,sex,birthday) values (#{username},#{address},#{sex},#{birthday});
     </insert>
 
-    <!--更新用户-->
+    &lt;!&ndash;更新用户&ndash;&gt;
     <update id="updateUser" parameterType="cn.lz.domain.User">
         update user set  username=#{username},address=#{address},sex=#{sex},birthday=#{birthday} where id=#{id};
     </update>
 
-    <!--根据ID删除用户-->
+    &lt;!&ndash;根据ID删除用户&ndash;&gt;
     <delete id="deleteByID" parameterType="integer">
         delete from user where id=#{id};
     </delete>
 
-    <!--根据Id查询用户-->
+    &lt;!&ndash;根据Id查询用户&ndash;&gt;
     <select id="findById" parameterType="integer" resultType="cn.lz.domain.User">
         select  * from user  where id= #{id};
     </select>
 
-    <!--根据姓名模糊查询用户-->
+    &lt;!&ndash;根据姓名模糊查询用户&ndash;&gt;
     <select id="findByName" parameterType="string" resultType="cn.lz.domain.User">
-        <!--select  * from user where username like '${value}';这种方式在前面不需要%%号了-->
+        &lt;!&ndash;select  * from user where username like '${value}';这种方式在前面不需要%%号了&ndash;&gt;
         select  * from user where username like #{username};
     </select>
 
-    <!--查询总的用户总记录条数 -->
+    &lt;!&ndash;查询总的用户总记录条数 &ndash;&gt;
     <select id="findTotal" resultType="java.lang.Integer">
         select count(id) from user;
     </select>
 
-    <!--根据queryvo的条件查询用户-->
+    &lt;!&ndash;根据queryvo的条件查询用户&ndash;&gt;
     <select id="findByVo" parameterType="cn.lz.domain.QueryVo" resultType="cn.lz.domain.User">
         select  * from user where username like #{user. username};
-    </select>
+    </select>-->
 </mapper>
